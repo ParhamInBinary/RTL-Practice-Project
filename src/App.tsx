@@ -1,34 +1,46 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { Box, Typography } from '@mui/material';
 
-function App() {
-  const [count, setCount] = useState(0)
+import { useState } from 'react';
+import { InputComponent, ListComponent } from './components';
+import { Body, Header } from './styles';
 
-  return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
+export interface Drink {
+  title: string;
+  complete: boolean;
 }
 
-export default App
+function App() {
+  const [drinks, setDrinks] = useState<Drink[]>([]);
+
+  const addDrinkToList = (drink: Drink) => {
+    const existingDrink = drinks.find(
+      (drinkInList) => drinkInList.title === drink.title
+    );
+    if (existingDrink) return;
+
+    setDrinks((prevState) => [...prevState, drink]);
+  };
+
+  return (
+    <>
+      <Header>
+        <Typography variant="h1">Mark's To-drink list</Typography>
+      </Header>
+      <Body>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '20px',
+            width: '500px',
+          }}
+        >
+          <InputComponent addDrinkToList={addDrinkToList} />
+          <ListComponent drinks={drinks} setDrinks={setDrinks}/>
+        </Box>
+      </Body>
+    </>
+  );
+}
+
+export default App;
