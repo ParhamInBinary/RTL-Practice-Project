@@ -1,5 +1,5 @@
 import { Autocomplete, Box, Button, TextField } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Drink } from '../../App';
 
 interface IInputComponent {
@@ -7,8 +7,33 @@ interface IInputComponent {
 }
 
 export const InputComponent = ({ addDrinkToList }: IInputComponent) => {
-  const ListOfDrinks = [{ title: 'drink1' }, { title: 'drink2' }];
   const [input, setInput] = useState('');
+  const [ListOfDrinks, setListOfDrinks] = useState<Drink[]>([]);
+
+  useEffect(() => {
+    const fetchMocktails = async () => {
+      try {
+        const response = await fetch(
+          'https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Non_Alcoholic'
+        );
+        if (response.ok) {
+          const data = await response.json();
+
+          const mocktails = data.drinks.map((drink: any) => ({
+            title: drink.strDrink,
+            complete: false,
+          }));
+          setListOfDrinks(mocktails);
+        } else {
+          console.error('Failed to fetch mocktails');
+        }
+      } catch (error) {
+        console.error('Error fetching mocktails:', error);
+      }
+    };
+
+    fetchMocktails();
+  }, []);
 
   const handleAddClick = () => {
     if (input.trim() !== '') {
