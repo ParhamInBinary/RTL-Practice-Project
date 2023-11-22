@@ -22,7 +22,7 @@ function App() {
   };
 
   return (
-    <>
+    <Box>
       <Header>
         <Typography variant="h1">Mark's To-drink list</Typography>
       </Header>
@@ -36,10 +36,10 @@ function App() {
           }}
         >
           <InputComponent addDrinkToList={addDrinkToList} />
-          <ListComponent drinks={drinks} setDrinks={setDrinks}/>
+          <ListComponent drinks={drinks} setDrinks={setDrinks} />
         </Box>
       </Body>
-    </>
+    </Box>
   );
 }
 

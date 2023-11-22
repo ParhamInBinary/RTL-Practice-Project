@@ -13,6 +13,5 @@ export const Body = styled(MuiBox)(({ theme }) => ({
   alignItems: 'center',
   gap: 20,
   flex: 1,
-  width: '100%',
-  padding: '100px',
+  height: '100%',
 }));
