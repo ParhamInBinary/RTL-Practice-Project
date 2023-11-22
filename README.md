@@ -7,7 +7,7 @@ Mark is a mocktail enthusiast, and loves trying new recipes. He wants you to dev
 
 * Upon loading, the site should have the header "Mark's To-drink list" ✅
 * Mocktails should be fetched from https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Non_Alcoholic.  
- Make sure the app fetches directly from this API. 
+ Make sure the app fetches directly from this API. ✅
 * Mark should be able to add new drinks to the list, via a search-bar. ✅
     * The search bar should only accept valid drinks from the API.
 * Mark should be able to mark drinks as complete. ✅
