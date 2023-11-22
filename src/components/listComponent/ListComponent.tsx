@@ -71,7 +71,12 @@ export const ListComponent = ({ drinks, setDrinks }: IListComponent) => {
           Clear all
         </Button>
       </Box>
-      <Container>
+      <Container role="list-div">
+        {!drinks.length && (
+          <Typography variant="caption" color={'#c1c1c1'}>
+            No drinks added
+          </Typography>
+        )}
         {filteredDrinks().map((drink, index) => (
           <Box
             key={index}

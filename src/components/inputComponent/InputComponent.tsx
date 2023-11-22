@@ -55,7 +55,7 @@ export const InputComponent = ({ addDrinkToList }: IInputComponent) => {
         renderInput={(params) => (
           <TextField
             {...params}
-            label="Search input"
+            label="Search drink"
             InputProps={{
               ...params.InputProps,
               type: 'search',
