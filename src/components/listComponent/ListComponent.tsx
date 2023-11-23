@@ -71,7 +71,7 @@ export const ListComponent = ({ drinks, setDrinks }: IListComponent) => {
           Clear all
         </Button>
       </Box>
-      <Container role="list-div">
+      <Container data-testid="list-component">
         {!drinks.length && (
           <Typography variant="caption" color={'#c1c1c1'}>
             No drinks added

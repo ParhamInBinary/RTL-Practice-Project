@@ -31,7 +31,6 @@ describe('InputComponent', () => {
     render(<InputComponent addDrinkToList={mockAddDrinkToList} />);
 
     const addBtnElement = screen.getByRole('button', { name: 'Add' });
-
     expect(addBtnElement).toBeInTheDocument();
   });
 
