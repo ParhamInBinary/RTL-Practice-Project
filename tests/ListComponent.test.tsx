@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 
@@ -16,32 +16,71 @@ const mockDrinkList = [
   { title: 'Drink4', completed: false },
 ];
 
-const mockAddDrinkFn = () => {
-    
-}
+const mockAddDrinkFn = async () => {
+  const user = userEvent.setup();
+
+  const inputElement = screen.getByLabelText(/Search drink/i);
+  expect(inputElement).toHaveValue('');
+  await user.type(inputElement, mockDrink.title);
+  await waitFor(() => {
+    expect(inputElement).toHaveValue(mockDrink.title);
+  });
+
+  const addBtnElement = screen.getByRole('button', { name: 'Add' });
+  await user.click(addBtnElement);
+
+  const drink = await waitFor(() => screen.findByTestId('drink'));
+
+  expect(drink).toBeInTheDocument();
+};
 
 describe('ListComponent', () => {
   it('should render empty list', () => {
     render(<ListComponent drinks={mockDrinks} setDrinks={mockSetDrinks} />);
     const listElement = screen.getByTestId('list-component');
-
     expect(listElement).toBeInTheDocument();
   });
 
   it('should render drink in list when added', async () => {
     render(<App />);
+
+    mockAddDrinkFn();
+  });
+
+  //   it.only('should delete drink', async () => {
+  //     render(<App />);
+  //     const user = userEvent.setup();
+
+  //     mockAddDrinkFn();
+
+  //     await waitFor(() => {
+  //       const drinks = screen.queryAllByTestId('drink');
+  //       console.log('------drinks', drinks)
+  //     });
+  //     // const deleteBtn = screen.getByRole('img', { name: /Delete/i });
+  //     // expect(deleteBtn).toBeInTheDocument();
+  //     // await user.click(deleteBtn)
+  //   });
+
+  it('should render Clear all btn', () => {
+    render(<ListComponent drinks={mockDrinks} setDrinks={mockSetDrinks} />);
+    const clearAllBtn = screen.getByRole('button', { name: 'Clear all' });
+    expect(clearAllBtn).toBeInTheDocument();
+  });
+
+  it('should clear all drinks from list on click', async () => {
+    render(<App />);
     const user = userEvent.setup();
 
-    const inputElement = screen.getByLabelText(/Search drink/i);
-    expect(inputElement).toHaveValue('');
-    await user.type(inputElement, mockDrink.title);
-    expect(inputElement).toHaveValue(mockDrink.title);
+    mockAddDrinkFn();
 
-    const addBtnElement = screen.getByRole('button', { name: 'Add' });
-    await user.click(addBtnElement);
+    const clearAllBtn = screen.getByRole('button', { name: 'Clear all' });
+    expect(clearAllBtn).toBeInTheDocument();
+    await user.click(clearAllBtn);
 
-    const drinks = await screen.findAllByText(/Drink/i);
-
-    expect(drinks).toHaveLength(drinks.length);
+    await waitFor(() => {
+      const drinks = screen.queryAllByTestId('drink');
+      expect(drinks).toHaveLength(0);
+    });
   });
 });

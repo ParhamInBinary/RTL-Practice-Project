@@ -79,6 +79,7 @@ export const ListComponent = ({ drinks, setDrinks }: IListComponent) => {
         )}
         {filteredDrinks().map((drink, index) => (
           <Box
+            data-testid="drink"
             key={index}
             sx={{
               padding: '10px',
@@ -97,9 +98,16 @@ export const ListComponent = ({ drinks, setDrinks }: IListComponent) => {
             </Typography>
             <Box sx={{ display: 'flex', gap: '5px' }}>
               <Box onClick={() => handleCompleteDrink(drink)}>
-                {drink.complete ? <CheckBox /> : <CheckBoxOutlineBlank />}
+                {drink.complete ? (
+                  <CheckBox data-testid="checked-checkbox" />
+                ) : (
+                  <CheckBoxOutlineBlank data-testid="unchecked-checkbox" />
+                )}
               </Box>
-              <Delete onClick={() => handleDeleteDrink(drink, index)} />
+              <Delete
+                onClick={() => handleDeleteDrink(drink, index)}
+                data-testid="deleteBtn"
+              />
             </Box>
           </Box>
         ))}
